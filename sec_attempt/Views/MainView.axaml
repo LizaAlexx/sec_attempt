@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:sec_attempt.ViewModels"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="sec_attempt.Views.MainView"
+             x:DataType="vm:MainViewModel">
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainViewModel />
+	</Design.DataContext>
+
+	<TabControl>
+		<TabItem Header="CME analysis">
+			<!-- ========= Основная область ========= -->
+			<Grid Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*"/>
+					<!-- текст -->
+					<ColumnDefinition Width="3*"/>
+					<!-- график -->
+				</Grid.ColumnDefinitions>
+
+				<!-- ======= Левая часть (была StackPanel) ======= -->
+				<StackPanel Grid.Column="0" Spacing="10">
+					<TextBlock Text="FirstAttempt"
+							   FontSize="16"
+							   FontWeight="Bold"/>
+
+					<StackPanel Orientation="Horizontal" Spacing="10">
+						<Button Content="Показать статистику CME"
+								Width="200" Height="30"
+								Command="{Binding ShowStatsCommand}"/>
+					</StackPanel>
+
+					<ListBox x:Name="ComparisonResultListBox"
+							 Height="400"
+							 HorizontalAlignment="Stretch"/>
+				</StackPanel>
+
+				<!-- ======= Правая часть — график ======= -->
+				<lvc:CartesianChart Grid.Column="1" Series="{CompiledBinding Series}"/>
+				<!-- CartesianChart из LiveChartsCore -->
+				<!--<lvc:CartesianChart Grid.Column="1"
+                                Series="{Binding YearSeries}"
+                                XAxes="{Binding YearXAxis}"
+                                YAxes="{Binding CountYAxis}"
+                                LegendPosition="Hidden"
+                                ZoomMode="X"
+                                Margin="20,0,0,0"/>-->
+			</Grid>
+		</TabItem>
+
+		<TabItem Header="DB analysis">
+			<Button Content="Сравнить БД"
+                    Width="180" Height="30"
+                    Command="{Binding CompareCommand}"/>
+		</TabItem>
+	</TabControl>
+</UserControl>
